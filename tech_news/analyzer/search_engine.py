@@ -32,10 +32,8 @@ def search_by_date(date):
 # Requisito 8
 def search_by_tag(tag):
     result = []
-    noticias_por_titulo = search_news(
-        {"tags": {"$regex": tag, "$options": "i"}}
-    )
-    for nova in noticias_por_titulo:
+    noticias_por_tag = search_news({"tags": {"$regex": tag, "$options": "i"}})
+    for nova in noticias_por_tag:
         result.append((nova["title"], nova["url"]))
 
     return result
@@ -43,4 +41,11 @@ def search_by_tag(tag):
 
 # Requisito 9
 def search_by_category(category):
-    """Seu código deve vir aqui"""
+    result = []
+    noticias_por_categoria = search_news(
+        {"category": {"$regex": category, "$options": "i"}}
+    )
+    for nova in noticias_por_categoria:
+        result.append((nova["title"], nova["url"]))
+
+    return result

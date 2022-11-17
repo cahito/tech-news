@@ -1,11 +1,14 @@
 from tech_news.database import search_news
+from datetime import datetime
 
 
 # Requisito 6
 def search_by_title(title):
     result = []
-    noticias = search_news({"title": {"$regex": title, "$options": "i"}})
-    for nova in noticias:
+    noticias_por_titulo = search_news(
+        {"title": {"$regex": title, "$options": "i"}}
+    )
+    for nova in noticias_por_titulo:
         result.append((nova["title"], nova["url"]))
 
     return result
@@ -13,7 +16,17 @@ def search_by_title(title):
 
 # Requisito 7
 def search_by_date(date):
-    """Seu código deve vir aqui"""
+    result = []
+    try:
+        data_formatada = datetime.strptime(date, "%Y-%m-%d").strftime(
+            "%d/%m/%Y"
+        )
+        noticias_por_data = search_news({"timestamp": data_formatada})
+        for cada in noticias_por_data:
+            result.append((cada["title"], cada["url"]))
+        return result
+    except ValueError:
+        raise (ValueError("Data inválida"))
 
 
 # Requisito 8

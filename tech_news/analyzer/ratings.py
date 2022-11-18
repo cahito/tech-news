@@ -13,10 +13,25 @@ def top_5_news():
             result.append((noticias_pop[x]["title"], noticias_pop[x]["url"]))
         except IndexError:
             pass
-    
+
     return result
 
 
 # Requisito 11
 def top_5_categories():
-    """Seu código deve vir aqui"""
+    result = []
+    noticias = find_news()
+    categorias = [nova["category"] for nova in noticias]
+    contagem = {}
+
+    for categoria in categorias:
+        if categoria in contagem:
+            contagem[categoria] += 1
+        else:
+            contagem[categoria] = 1
+    categorias_pop = sorted(
+        contagem, key=lambda order: (-contagem.get(order), order)
+    )
+    result = categorias_pop[:5]
+
+    return result
